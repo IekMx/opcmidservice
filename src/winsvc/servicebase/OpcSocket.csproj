@@ -28,7 +28,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -123,10 +123,8 @@ EXIT 0
 </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>C:\Windows\Microsoft.NET\Framework\v4.0.30319\installutil /u OpcSocket.exe
-EXIT 0
-C:\Windows\Microsoft.NET\Framework\v4.0.30319\installutil OpcSocket.exe
-EXIT 0
+    <PostBuildEvent>$(FrameworkDir)\installutil /u OpcSocket.exe
+$(FrameworkDir)\installutil OpcSocket.exe
 net start IEKOPCSOCKET
 EXIT 0
 </PostBuildEvent>
