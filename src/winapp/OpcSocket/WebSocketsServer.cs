@@ -16,8 +16,6 @@ namespace OpcSocket
 {
     public class WebSocketsServer : IWebSocketsServer
     {
-        private AbstractOpcManager _gaugeXlManager = Module1.GaugeXlManager;
-        private AbstractOpcManager _festoManager = Module1.FestoManager;
         private List<OperationContext> _operationContexts = new List<OperationContext>();
 
         public WebSocketsServer()
@@ -26,19 +24,19 @@ namespace OpcSocket
             if (!_operationContexts.Contains(opcx))
             {
                 _operationContexts.Add(opcx);
-                _festoManager.Config.ClientTags.ForEach(x =>
+                Module1.FestoManager.Config.ClientTags.ForEach(x =>
                 {
                     ReportProgress(new
                     {
-                        server = _festoManager.ServerName,
+                        server = Module1.FestoManager.ServerName,
                         handle = x.Handle,
                         value = x.Value,
                         name = x.Name
                     });
                 });
             }
-            _gaugeXlManager.DataReceived += _opcManager_DataReceived;
-            _festoManager.DataReceived += _opcManager_DataReceived;
+            Module1.GaugeXlManager.DataReceived += _opcManager_DataReceived;
+            Module1.FestoManager.DataReceived += _opcManager_DataReceived;
         }
 
         private void _opcManager_DataReceived(object sender, opclibrary.Mappings.OpcEventArgs e)
@@ -60,11 +58,11 @@ namespace OpcSocket
             {
                 var bytes = msg.GetBody<byte[]>();
                 var tag = JsonConvert.DeserializeObject<OpcTag>(Encoding.ASCII.GetString(bytes));
-                var gaugeTag = _gaugeXlManager.Config.ClientTags.FirstOrDefault(x => x.Name == tag.Name);
-                var festoTag = _festoManager.Config.ClientTags.FirstOrDefault(x => x.Name == tag.Name);
+                var gaugeTag = Module1.GaugeXlManager.Config.ClientTags.FirstOrDefault(x => x.Name == tag.Name);
+                var festoTag = Module1.FestoManager.Config.ClientTags.FirstOrDefault(x => x.Name == tag.Name);
 
-                _festoManager.Config.ClientTags.Where(x => x.Name == tag.Name).FirstOrDefault().Value = tag.Value;
-                _festoManager.Write(tag.Handle);
+                Module1.FestoManager.Config.ClientTags.Where(x => x.Name == tag.Name).FirstOrDefault().Value = tag.Value;
+                Module1.FestoManager.Write(tag.Handle);
             }
             catch (Exception e)
             {

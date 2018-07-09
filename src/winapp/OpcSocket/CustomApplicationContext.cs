@@ -73,7 +73,7 @@ namespace OpcSocket
             hostManager = new HostManager(notifyIcon);
             if (!hostManager.IsDecorated)
             {
-                var a = Module1.FestoManager;
+                //var a = Module1.FestoManager;
                 var b = Module1.GaugeXlManager;
 
 
@@ -98,6 +98,8 @@ namespace OpcSocket
                 _host.Open();
 
                 notifyIcon.Text = _host.State == CommunicationState.Opened ? "Listening at " + _baseAddress : "Closed";
+                notifyIcon.BalloonTipText = _host.State == CommunicationState.Opened ? "Listening at " + _baseAddress : "Closed";
+                notifyIcon.ShowBalloonTip(5000);
             }
         }
 
