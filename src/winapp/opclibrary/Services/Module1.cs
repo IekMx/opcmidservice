@@ -10,12 +10,13 @@ namespace opclibrary.Services
 {
     public static class Module1
     {
-        public static AbstractOpcManager GaugeXlManager = Impl.GaugeXlManager.GetInstance();
-        public static AbstractOpcManager FestoManager = Impl.FestoManager.GetInstance();
+        public static AbstractOpcManager GaugeXlManager;
+        public static AbstractOpcManager FestoManager;
 
         static Module1()
         {
-            
+            FestoManager = Impl.FestoManager.GetInstance();
+            GaugeXlManager = Impl.GaugeXlManager.GetInstance();
         }
 
     }

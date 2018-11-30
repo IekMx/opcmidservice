@@ -52,12 +52,13 @@ namespace opclibrary.Services.Impl
             tags.Add(new OpcTag { Name = "PLC1.Application.GVL_1.HMI_iPos30", Handle = 35 });
             tags.Add(new OpcTag { Name = "PLC1.Application.GVL_1.HMI_iPos31", Handle = 36 });
             tags.Add(new OpcTag { Name = "PLC1.Application.GVL_1.HMI_iPos32", Handle = 37 });
+            tags.Add(new OpcTag { Name = "PLC1.Application.GVL_1.HMI_rDelay", Handle = 38 });
 
             Initialize(new Mappings.OpcConfiguration
             {
-                TagCount = 37,
+                TagCount = 38,
                 ClientTags = tags,
-                ItemIsArray = new int[38]
+                ItemIsArray = new int[39]
             });
         }
 

@@ -58,7 +58,6 @@ namespace opclibrary.Services
                 _OpcGroup.UpdateRate = 250;
                 _OpcGroup.IsSubscribed = true;
 
-                _OpcGroup.DataChange += OPCGroup_DataChanged;
                 _OpcGroup.OPCItems.DefaultIsActive = true;
                 _OpcGroup.OPCItems.AddItems(Config.TagCount, Config.ClientTags.Select(x => x.Name).ToArray(), Config.ClientTags.Select(x => x.Handle).ToArray(), out var serverHandles, out var serverErrors);
                 Config.ServerHandles = serverHandles;
@@ -69,13 +68,15 @@ namespace opclibrary.Services
                 for (int i = 1; i <= config.TagCount; i++)
                 {
                     int ab = (Int32)Config.ServerErrors.GetValue(i);
-                    if (ab == 0)
+                    itemgood = ab == 0;
+                    if (!itemgood)
                     {
-                        itemgood = true;
+                        break;
                     }
                 }
-                if (!itemgood)
+                if (itemgood)
                 {
+                    _OpcGroup.DataChange += OPCGroup_DataChanged;
                 }
             }
             catch (Exception ex)
